@@ -1,7 +1,7 @@
 import React from 'react'
 import ButtonBlue from './ButtonBlue'
 import ButtonWhite from './ButtonWhite'
-function Card({ image, serviceName, price }) {
+function Card({ image, serviceName, price, btnName }) {
     return (
         <>
             <div className="flex flex-col justify-center items-center bg-white py-20 m-4">
@@ -15,7 +15,7 @@ function Card({ image, serviceName, price }) {
 
 
                 <div className="flex space-x-1">
-                    <ButtonBlue btnValue="Book" />
+                    <ButtonBlue btnValue={btnName} />
                     <ButtonWhite price={price} />
                 </div>
             </div>

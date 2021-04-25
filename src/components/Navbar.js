@@ -9,7 +9,7 @@ function Navbar() {
             <Link className="pl-8 text-3xl font-bold text-black-500" to="/">Spik&Span <i class="fas fa-spray-can"></i></Link>
 
 
-            < div className="pr-8 md:block hidden">
+            < div className="pr-8">
                 <Link className="p-4" to="/">Home</Link>
                 <Link className="p-4" to="/services">Our Services</Link>
                 <Link className="p-4" to="/about">About Us</Link>

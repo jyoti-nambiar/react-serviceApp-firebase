@@ -9,13 +9,13 @@ import image6 from '../images/coronaClean.jpg'
 import image7 from '../images/propertyShowClean.jpg'
 
 const arrayOfServiceObj = [
-    { serviceName: "Window Cleaning", price: "899 kr", image: image1 },
-    { serviceName: "Home Cleaning", price: "1800 kr", image: image2 },
-    { serviceName: "Deep Cleaning", price: "899 kr", image: image3 },
-    { serviceName: "Moving Cleaning", price: "899 kr", image: image4 },
-    { serviceName: "Office Cleaning", price: "899 kr", image: image5 },
-    { serviceName: "Sanitization Cleaning", price: "899 kr", image: image6 },
-    { serviceName: "Property Showing Cleaning", price: "899 kr", image: image7 }
+    { serviceName: "Window Cleaning", price: "899 kr", image: image1, btnName: "Book" },
+    { serviceName: "Home Cleaning", price: "1800 kr", image: image2, btnName: "Book" },
+    { serviceName: "Deep Cleaning", price: "899 kr", image: image3, btnName: "Book" },
+    { serviceName: "Moving Cleaning", price: "899 kr", image: image4, btnName: "Book" },
+    { serviceName: "Office Cleaning", price: "899 kr", image: image5, btnName: "Book" },
+    { serviceName: "Sanitization Cleaning", price: "899 kr", image: image6, btnName: "Book" },
+    { serviceName: "Property Showing Cleaning", price: "899 kr", image: image7, btnName: "Book" }
 ]
 
 
@@ -26,7 +26,7 @@ function CardList() {
         <div className="flex flex-row flex-wrap justify-center items-center">
 
             {arrayOfServiceObj.map((service) => {
-                return (<Card image={service.image} serviceName={service.serviceName} price={service.price} />)
+                return (<Card image={service.image} serviceName={service.serviceName} price={service.price} btnName={service.btnName} />)
 
 
             })
