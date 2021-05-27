@@ -26,7 +26,7 @@ function HomePage() {
             </div>
             <div className="flex flex-col p-20 justify-center items-center   bg-gray-200">
                 <h2 className="font-bold py-4 text-2xl">100% satisfaction guarantee</h2>
-                <p>After 400,000 cleanings from both private individuals and companies, our cleaning company has an average rating of 4.7 / 5. If you are not satisfied with your cleaning, we will make sure to correct it. Our customer service is open 5 days a week and there you always get help!</p>
+                <p className="text-center">After 400,000 cleanings from both private individuals and companies, our cleaning company has an average rating of 4.7 / 5. If you are not satisfied with your cleaning, we will make sure to correct it. Our customer service is open 5 days a week and there you always get help!</p>
                 <CustomerCardList />
 
 

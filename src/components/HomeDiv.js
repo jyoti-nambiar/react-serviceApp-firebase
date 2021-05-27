@@ -3,7 +3,7 @@ import React from 'react'
 function HomeDiv() {
     return (<>
         <div className="flex flex-col items-center m-2">
-            <i class="fas fa-hand-peace m-6"></i>
+            <i className="fas fa-hand-peace m-6"></i>
             <p className="text-gray-600 font-bold text-center">Socially responsible cleaning company in Stockholm, Uppsala, Västerås and Enköping</p>
             <p className="text-center">Our employees have collective bargain agreement and enjoy rights to paid vacation, pension, sick-leave and other benefits.</p>
         </div>

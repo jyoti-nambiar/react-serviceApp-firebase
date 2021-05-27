@@ -1,38 +1,57 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import Card from './Card'
-import image1 from '../images/windowClean.jpg'
-import image2 from '../images/HomeCleaning.jpg'
-import image3 from '../images/DeepCleaning.jpg'
-import image4 from '../images/movingClean.jpg'
-import image5 from '../images/officeClean.jpg'
-import image6 from '../images/coronaClean.jpg'
-import image7 from '../images/propertyShowClean.jpg'
-
-const arrayOfServiceObj = [
-    { serviceName: "Window Cleaning", price: "899 kr", image: image1, btnName: "Book" },
-    { serviceName: "Home Cleaning", price: "1800 kr", image: image2, btnName: "Book" },
-    { serviceName: "Deep Cleaning", price: "899 kr", image: image3, btnName: "Book" },
-    { serviceName: "Moving Cleaning", price: "899 kr", image: image4, btnName: "Book" },
-    { serviceName: "Office Cleaning", price: "899 kr", image: image5, btnName: "Book" },
-    { serviceName: "Sanitization Cleaning", price: "899 kr", image: image6, btnName: "Book" },
-    { serviceName: "Property Showing Cleaning", price: "899 kr", image: image7, btnName: "Book" }
-]
-
 
 
 function CardList() {
+    const [products, setProduct] = useState([]);
+    const [loadMore, setLoadMore] = useState(6);
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const response = await axios.get(`http://localhost:1337/products?_limit=${loadMore}`);
+            //console.log(response.data);
+            setProduct(response.data);
+
+        }
+        fetchProduct();
+
+    }, [loadMore]);
+
+    function loadMoreService() {
+        let dynamicAdd = loadMore + 3;
+        setLoadMore(dynamicAdd);
+
+
+    }
+
+    function loadLessService() {
+        let dynamicReduce = loadMore - 6;
+        setLoadMore(dynamicReduce);
+
+
+    }
+
 
     return (
-        <div className="flex flex-row flex-wrap justify-center items-center">
+        <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
 
-            {arrayOfServiceObj.map((service) => {
-                return (<Card image={service.image} serviceName={service.serviceName} price={service.price} btnName={service.btnName} />)
+
+            {products.map((service) => {
+                //console.log(service.image.formats.small.url);
+                return (<Card key={service.id} serviceId={service.id} image={`http://localhost:1337${service.image.formats.small.url}`} description={service.description} name={service.name} price={service.price} btnName="Book" />)
 
 
             })
             }
 
+            {(products.length >= loadMore) ? (<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={loadMoreService}>More Service</button>) :
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={loadLessService}>Show less </button>
+
+            }
+
+
         </div>
+
     )
 }
 
