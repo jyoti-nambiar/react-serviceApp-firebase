@@ -57,16 +57,7 @@ const token=localStorage.getItem("jwt");
         const userinfo = localStorage.getItem("userId");
         //console.log(userinfo);
         setUserId(userinfo);
-
-
-
-        //console.log("this is the service id", serviceId);
-
-       // console.log("this is the user id", userId);
-
-
-        //console.log("this is the image scr", url);
-        
+        //load data in user-bookings in strapi
         axios.post("http://localhost:1337/user-bookings", {
             name: username,
             date: formValues.date,
@@ -87,13 +78,6 @@ const token=localStorage.getItem("jwt");
 
 
     }
-
-
-
-
-
-
-
 
 
     return (
@@ -130,8 +114,6 @@ const token=localStorage.getItem("jwt");
                                     contentLabel="Example Modal"
                                     ariaHideApp={false}
                                 >
-
-                                    {/* <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2> */}
                                     <button onClick={closeModal}><i className="far fa-times-circle text-right"></i></button>
                                     <div>Booking Information</div>
                                     <form onSubmit={handleOnSubmit}>
@@ -147,11 +129,6 @@ const token=localStorage.getItem("jwt");
 
                                     </form>
                                 </Modal>
-
-
-
-
-
 
                             </div>
                         </div>

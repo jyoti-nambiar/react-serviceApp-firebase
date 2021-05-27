@@ -8,12 +8,9 @@ function BookingCard({image,cardId, product, date, time, changeState}) {
 //for reschedule
 const initialValues = {
 
-        
         date: "",
         time: "",
       
-
-
     }
 
 
@@ -73,8 +70,6 @@ function handleOnChange(e) {
     }
 
 
-
-
   //modal for cancel
 function openModal() {
        setIsOpen(true)
@@ -95,8 +90,6 @@ const customStyles = {
             transform: 'translate(-50%, -50%)'
         }
     };
-
-
 
     return (
 
