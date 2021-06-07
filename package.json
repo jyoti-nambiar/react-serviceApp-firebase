@@ -22,7 +22,7 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "node server.js",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
