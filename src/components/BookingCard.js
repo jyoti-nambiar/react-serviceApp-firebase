@@ -3,7 +3,13 @@ import ButtonBlue from './ButtonBlue';
 import ButtonWhite from './ButtonWhite';
 import axios from 'axios';
 import Modal from 'react-modal';
-function BookingCard({image,cardId, product, date, time, changeState}) {
+import { loadStripe } from '@stripe/stripe-js';
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe('pk_test_51Ix6U6CxfG0XwLzbuosrl518XDhmHQtZq2M6mq0ng4tR2SJDtPxQ0bHDMrNIDYA18RoQBfG7pfRV8fOcx06PQPfB00AZ7w0YgS');
+
+
+function BookingCard({image,cardId, product, date, time, price, changeState}) {
 
 //for reschedule
 const initialValues = {
@@ -91,6 +97,30 @@ const customStyles = {
         }
     };
 
+
+const handleClick = async (event) => {
+    // Get Stripe.js instance
+    const stripe = await stripePromise;
+
+    // Call your backend to create the Checkout Session
+    const response = await axios.post('http://localhost:4242/create-checkout-session', {product:product, price:price});
+//console.log(response.data);
+    const sessionId = response.data.id;
+    
+
+    // When the customer clicks on the button, redirect them to Checkout.
+    const result = await stripe.redirectToCheckout({
+      sessionId: sessionId
+    });
+if (result.error) {
+      // If `redirectToCheckout` fails due to a browser or network
+      // error, display the localized error message to your customer
+      // using `result.error.message`.
+    }
+
+  };
+
+
     return (
 
  <div className="max-w-xs rounded overflow-hidden shadow-lg my-2">
@@ -129,13 +159,6 @@ const customStyles = {
                                 </Modal>
 
 
-
-
-
-
-
-
-
     <span className="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2"> <ButtonWhite btnValue="Cancel" onClickFunc={openModal}/></span>
                                   <Modal
                                     isOpen={modalIsOpen}
@@ -156,6 +179,11 @@ const customStyles = {
 
                                     </form>
                                 </Modal>
+
+<button role="link" onClick={handleClick}>
+      Checkout
+    </button>
+
 
   </div>
 </div>

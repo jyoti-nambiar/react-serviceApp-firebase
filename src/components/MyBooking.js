@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import BookingCard from './BookingCard';
+
+
 function MyBooking() {
 
 const [bookings, setBookings] = useState([]);
@@ -30,13 +32,17 @@ fetchData();
 
 
 
+
+
     return (
 
     <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
        
 {bookings.map( (booking)=>{
-    
- return(<BookingCard key={booking.id} cardId={booking.id} image={booking.img }product={booking.product.name} date={booking.date} time={booking.time} changeState={(cardDelete)=>{setDeleteCard(cardDelete);console.log("deletecard value", cardDelete)}} />
+    console.log(booking);
+ return(<><BookingCard key={booking.id} cardId={booking.id} image={booking.img }product={booking.product.name} date={booking.date} time={booking.time} price={booking.price} changeState={(cardDelete)=>{setDeleteCard(cardDelete);console.log("deletecard value", cardDelete)}} />
+
+</>
    ); 
 })
 }

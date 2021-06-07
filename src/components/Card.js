@@ -38,8 +38,6 @@ const token=localStorage.getItem("jwt");
        setIsOpen(true)
        
     }
-    
-
 
     function closeModal() {
         setIsOpen(false);
@@ -62,6 +60,7 @@ const token=localStorage.getItem("jwt");
             name: username,
             date: formValues.date,
             time: formValues.time,
+            price:price,
             mobileNum: formValues.mobileNum,
             img:url,
             product: serviceId,
