@@ -6,6 +6,9 @@ import Card from './Card'
 function CardList() {
     const [products, setProduct] = useState([]);
     const [loadMore, setLoadMore] = useState(6);
+    const [cardDelete, setcardDelete]=useState(false);
+    const token=localStorage.getItem("jwt");
+    
     useEffect(() => {
         const fetchProduct = async () => {
             const response = await axios.get(`http://localhost:1337/products?_limit=${loadMore}`);
@@ -32,13 +35,27 @@ function CardList() {
     }
 
 
+function deleteItem(id) {
+//console.log("This is serviceId",id);
+axios.delete(`http://localhost:1337/products/${id}`).then(res=>{console.log(res);
+      setcardDelete(true);
+ 
+
+     });
+    
+    }
+
+
+
+
+
     return (
         <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
 
 
             {products.map((service) => {
                 //console.log(service.image.formats.small.url);
-                return (<Card key={service.id} serviceId={service.id} image={`http://localhost:1337${service.image.formats.small.url}`} description={service.description} name={service.name} price={service.price} btnName="Book" />)
+                return (<Card key={service.id} serviceId={service.id} image={`http://localhost:1337${service.image.formats.thumbnail.url}`} description={service.description} name={service.name} price={service.price} btnName="Book" onDelete={deleteItem} />)
 
 
             })

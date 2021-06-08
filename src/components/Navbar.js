@@ -51,7 +51,7 @@ useEffect(()=>{
                 <span className="p-1">({bookingCount})</span>
                 </Link>
                 {/*Person with role admin can see Add new service */}
-{(role=="admin")&&<Link className="p-4" to="/addService">Add Service</Link> }
+{(role==="admin")&&<Link className="p-4" to="/addService">Add Service</Link> }
 
                
                 {jwt ? (

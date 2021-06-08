@@ -98,6 +98,7 @@ const customStyles = {
     };
 
 
+    //passing data to stripe server
 const handleClick = async (event) => {
     // Get Stripe.js instance
     const stripe = await stripePromise;
@@ -113,6 +114,7 @@ const handleClick = async (event) => {
       sessionId: sessionId
     });
 if (result.error) {
+  result.error.message="Transaction failure";
       // If `redirectToCheckout` fails due to a browser or network
       // error, display the localized error message to your customer
       // using `result.error.message`.
@@ -183,7 +185,6 @@ if (result.error) {
 <button role="link" onClick={handleClick}>
       Checkout
     </button>
-
 
   </div>
 </div>
