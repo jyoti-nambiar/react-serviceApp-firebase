@@ -8,7 +8,7 @@ function CardList() {
     const [loadMore, setLoadMore] = useState(6);
     const [cardDelete, setcardDelete]=useState(false);
     const token=localStorage.getItem("jwt");
-    
+    const userId=localStorage.getItem("userId");
     useEffect(() => {
         const fetchProduct = async () => {
             const response = await axios.get(`http://localhost:1337/products?_limit=${loadMore}`);
@@ -37,8 +37,12 @@ function CardList() {
 
 function deleteItem(id) {
 //console.log("This is serviceId",id);
-axios.delete(`http://localhost:1337/products/${id}`).then(res=>{console.log(res);
-      setcardDelete(true);
+axios.delete(`http://localhost:1337/products/${id}?users_permissions_user.id=${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      
+    }}).then(res=>{console.log(res);
+      //setcardDelete(true);
  
 
      });

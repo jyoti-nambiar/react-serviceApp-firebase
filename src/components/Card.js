@@ -27,14 +27,13 @@ const initialValuesForUpdate = {
 const [modalIsOpen, setIsOpen] = useState(false);
 const [deletemodalIsOpen, setdeleteIsOpen] = useState(false);
 const [updatemodalIsOpen, setUpdateIsOpen] = useState(false);
-    const [formValues, setFormValues] = useState(initialValues);
-    const [formValuesUpdate, setFormValuesUpdate] = useState(initialValuesForUpdate);
-    const [userId, setUserId] = useState(localStorage.getItem("userId"));
-    const [uploadImage, setUploadImage] = useState();
-   const url=image;
+const [formValues, setFormValues] = useState(initialValues);
+const [formValuesUpdate, setFormValuesUpdate] = useState(initialValuesForUpdate);
+const [uploadImage, setUploadImage] = useState();
+const url=image;
 const username=localStorage.getItem("username");
 const token=localStorage.getItem("jwt");
-
+const userId = localStorage.getItem("userId");
 
     const customStyles = {
         content: {
@@ -83,9 +82,7 @@ console.log("This is the uploaded image",e.target.files[0]);
     function handleOnSubmit(e) {
         e.preventDefault();
         closeModal();
-        const userinfo = localStorage.getItem("userId");
-        //console.log(userinfo);
-        setUserId(userinfo);
+        
         //load data in user-bookings in strapi
         axios.post("http://localhost:1337/user-bookings", {
             name: username,
@@ -137,11 +134,15 @@ function openModalUpdate() {
 
 function updateItem(){
 
-axios.put(`http://localhost:1337/products/${serviceId}`,{
+axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id=${userId}`,{
             name: formValuesUpdate.serviceName,
             description: formValuesUpdate.description,
             price: formValuesUpdate.price
-        }).then(res=>{console.log(res);
+        },{
+    headers: {
+      Authorization: `Bearer ${token}`,
+      
+    }}).then(res=>{console.log(res);
       const data = new FormData();
 
             data.append("files", uploadImage);

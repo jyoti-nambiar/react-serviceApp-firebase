@@ -13,7 +13,8 @@ function AddNewService() {
 
     const [formValues, setFormValues] = useState(initialValues);
     const [uploadImage, setUploadImage] = useState();
-
+const userId=localStorage.getItem("userId");
+const token=localStorage.getItem("jwt");
     function handleOnChange(e) {
         setFormValues({ ...formValues, [e.target.name]: e.target.value })
 
@@ -28,11 +29,15 @@ console.log("This is the uploaded image",e.target.files[0]);
 
     function handleOnSubmit(e) {
         e.preventDefault();
-        axios.post("http://localhost:1337/products", {
+        axios.post(`http://localhost:1337/products?users_permissions_user.id=${userId}`, {
             name: formValues.serviceName,
             description: formValues.description,
             price: formValues.price
-        }).then((response) => {
+        },{
+    headers: {
+      Authorization: `Bearer ${token}`,
+      
+    }}).then((response) => {
             console.log(response.data)
             const data = new FormData();
 
