@@ -1,39 +1,34 @@
 import React, { useState } from 'react'
-import axios from 'axios';
-
+import {resetPassword} from '../firebase/auth';
 
 function ForgotPassword() {
 
-    const [formValue, setFormValue] = useState({});
+    const [formValue, setFormValue] = useState('');
 
     function handleOnChange(e) {
-        console.log("the result is", e.target.value)
-        setFormValue(e.target.value);
-
+        
+ setFormValue(String(e.target.value));
+console.log(e.target.value);
 
     }
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(formValue);
-        axios
-            .post('http://localhost:1337/auth/forgot-password', {
-                email: formValue.email // user's email
-            })
-            .then(response => {
-                console.log('Your user received an email', response);
-
-            })
-            .catch(error => {
-                console.log('An error occurred:', error.response);
-            });
+       
+        try{
+resetPassword(formValue).then((res)=>{
+console.log(res);
 
 
+})
 
+        }catch(error){    
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorMessage);
+    
+  };
 
     }
-
-
-
 
 
     return (
@@ -67,12 +62,12 @@ function ForgotPassword() {
                                         type="email"
                                         name="email"
                                         onChange={handleOnChange}
-                                        value={formValue.email}
+                                        value={formValue}
                                         placeholder="Enter Email Address..."
                                     />
                                 </div>
                                 <div className="mb-6 text-center">
-                                    <button
+                                    <button type="submit"
                                         className="w-full px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
 
                                     >

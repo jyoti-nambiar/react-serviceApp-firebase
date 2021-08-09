@@ -34,11 +34,6 @@ function UploadFile() {
     }
 
 
-
-
-
-
-
     return (
         <div>
             <form onSubmit={fileUpload}>

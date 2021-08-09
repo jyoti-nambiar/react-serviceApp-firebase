@@ -5,12 +5,12 @@ import HomePage from './HomePage'
 import About from './About'
 import Register from './Register'
 import Login from './Login'
-import ResetPassword from './ResetPassword'
 import ForgotPassword from './ForgotPassword'
 import UploadFile from './UploadFile'
 import AddNewService from './AddNewService'
 import { Route, Switch } from "react-router-dom"
-
+import Profile from './Profile'
+import ProfileRedirect from '../router/ProfileRedirect'
 function AppRoute() {
 
 
@@ -19,16 +19,16 @@ function AppRoute() {
 
 
         <Switch>
-            <Route exact path="/"><HomePage /></Route>
-            <Route exact path="/services"><CardList /></Route>
-            <Route exact path="/about"><About /></Route>
-            <Route exact path="/myBooking"><MyBooking /></Route>
-            <Route exact path="/register"><Register /></Route>
-            <Route exact path="/login"><Login /></Route>
-            <Route exact path="/forgot-password"><ForgotPassword /></Route>
-            <Route exact path="/reset-password"><ResetPassword /></Route>
-            <Route exact path="/uploadFile"><UploadFile /></Route>
-            <Route exact path="/addService"><AddNewService /></Route>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/services" component={CardList}  />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/myBooking" component={MyBooking} />
+            <Route exact path="/addNewService" component= {AddNewService} />
+            <ProfileRedirect exact path="/register" component={Register} />
+            <ProfileRedirect exact path="/login" component={Login}  />
+            <Route exact path="/forgot-password" component={ForgotPassword} />
+            <Route exact path="/uploadFile" component={UploadFile} />
+            <Route exact path="/profile/:id" component={Profile}/>
         </Switch>
 
 

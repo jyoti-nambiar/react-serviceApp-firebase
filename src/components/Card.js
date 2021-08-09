@@ -3,6 +3,11 @@ import React, { useState} from 'react'
 import Modal from 'react-modal';
 import ButtonRed from './ButtonRed';
 import ButtonGreen from './ButtonGreen';
+import {useSession} from '../firebase/UserProvider';
+import {firestore} from '../firebase/config';
+import firebase from 'firebase/app';
+
+
 function Card({ serviceId, image, name, price, btnName, description, onDelete}) {
 const initialValues = {
 
@@ -30,9 +35,8 @@ const [updatemodalIsOpen, setUpdateIsOpen] = useState(false);
 const [formValues, setFormValues] = useState(initialValues);
 const [formValuesUpdate, setFormValuesUpdate] = useState(initialValuesForUpdate);
 const [uploadImage, setUploadImage] = useState();
-const url=image;
 const username=localStorage.getItem("username");
-const token=localStorage.getItem("jwt");
+const {user}= useSession();
 const userId = localStorage.getItem("userId");
 
     const customStyles = {
@@ -84,25 +88,29 @@ console.log("This is the uploaded image",e.target.files[0]);
         closeModal();
         
         //load data in user-bookings in strapi
-        axios.post("http://localhost:1337/user-bookings", {
-            name: username,
-            date: formValues.date,
-            time: formValues.time,
-            price:price,
-            mobileNum: formValues.mobileNum,
-            img:url,
-            product: serviceId,
-            users_permissions_user: userId
+        const newBookingRef = firestore.collection("userBookings");
+        const bookingData={
+           uid:user.uid ,
+           title:name ,
+           time : formValues.time,
+           contactInfo: formValues.mobileNum,
+           cost:price,
+            imageUrl:image
         }
-        ).then((res) => {
-            console.log("this is the reponse after upload",res);
+            firebase.auth().onAuthStateChanged(user=>{
+            if(user){
+                console.log(user.id)
+            newBookingRef.add(bookingData).then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });;
 
-        }).catch((err) => {
+            }
 
-            console.log(err)
-        });
-
-
+                    })
+         
 
     }
 
@@ -138,11 +146,7 @@ axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id
             name: formValuesUpdate.serviceName,
             description: formValuesUpdate.description,
             price: formValuesUpdate.price
-        },{
-    headers: {
-      Authorization: `Bearer ${token}`,
-      
-    }}).then(res=>{console.log(res);
+        }).then(res=>{console.log(res);
       const data = new FormData();
 
             data.append("files", uploadImage);
@@ -186,7 +190,10 @@ axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id
                             </div>
                             <div className="mt-4">
                                 {/*If logged in show modal or redirect to login */}
-                                <button className="transition duration-500 ease-in-out bg-blue-600 hover:bg-blue-600 transform hover:-translate-y-1 hover:scale-110 px-3 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded" onClick={token?(openModal):(()=>  window.location.href='/login')}>{btnName}</button>
+                                <button className="transition duration-500 ease-in-out bg-blue-600 hover:bg-blue-600 transform hover:-translate-y-1 hover:scale-110 px-3 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded" onClick={user?(openModal):(()=>  window.location.href='/login')}>{btnName}</button>
+                               
+                               
+                               
                                 {/*Modal for booking a service */}
                                 <Modal
                                     isOpen={modalIsOpen}
@@ -199,11 +206,11 @@ axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id
                                     <div>Booking Information</div>
                                     <form onSubmit={handleOnSubmit}>
                                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
-                                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="text" name="serviceName" value={username} onChange={handleOnChange} />
+                                      {!!user && <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="text" name="serviceName" value={user.displayName} onChange={handleOnChange} />} 
                                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">Date</label>
                                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="date" name="date" value={formValues.date} onChange={handleOnChange} />
                                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="time">Preferred Time</label>
-                                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="time" name="time"  min="09:00" max="18:00" required value={formValues.time} onChange={handleOnChange} />
+                                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="time" name="time"  min="09:00" max="18:00" required value={formValues.time} onChange={handleOnChange} step="2" />
                                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="telenumber">Telephone Number</label>
                                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="number" name="mobileNum" value={formValues.mobileNum} onChange={handleOnChange} />
                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" >Submit</button>

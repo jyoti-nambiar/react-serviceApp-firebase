@@ -1,22 +1,19 @@
 import React, { useState } from 'react'
-import axios from 'axios';
-
 import { Link, useHistory } from 'react-router-dom';
+import {signup} from '../firebase/auth'
 function Register() {
     const initialValues = {
 
         username: "",
         email: "",
         password: "",
-        role:""
-
-
+      
     }
 
 
     const [formValues, setFormValues] = useState(initialValues)
-    const [isRegistered, setifRegistered] = useState(false);
-    const [error, setError] = useState("");
+    const [isRegistered, setOnRegistered] = useState(false);
+
     const history = useHistory();
     //function called for input fields onchange
     function onHandleChange(e) {
@@ -25,28 +22,21 @@ function Register() {
 
     }
     //function call for submit
-    function onHandleSubmit(e) {
+  async function onHandleSubmit(e) {
 
         e.preventDefault();
+        let newUser
+try{
+newUser= await signup(formValues);
+setOnRegistered(true);
 
-        console.log("username:", formValues.username, "password:", formValues.password,"role", formValues.role );
+}catch(error){
+    console.log(error);
+}
 
-
-
-        // ska skickas till database via api /Api endpoint
-        axios.post('http://localhost:1337/auth/local/register', {
-            username: formValues.username,
-            email: formValues.email,
-            password: formValues.password,
-            designation:formValues.role
-        }).then((e) => {
-            //history.push("/login");
-        console.log(e.data)
-            setifRegistered(true);
-        }).catch((error) => {
-            console.log('An error occurred:', error.response);
-            setError(error.response.data.message[0].messages[0].message);
-        })
+if(newUser){
+history.push(`/profile/${newUser.uid}`);
+    }
 
     }
 
@@ -56,12 +46,12 @@ function Register() {
             <h1 className="text-2xl font-black my-4">Register Here!</h1>
             { isRegistered ? (
 
-                <h2> You are now registered, Please Login to continue </h2 >
+                <h2> You are now registered, Please<Link className="p-4" to="/login">Login</Link> to continue </h2 >
 
             ) : (
 
                 <div className="w-full max-w-xs">
-                    <div className="text-red-600 my-4">{error}</div>
+                    <div className="text-red-600 my-4"></div>
                     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={onHandleSubmit}>
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -103,13 +93,10 @@ function Register() {
                                 Choose a role
                             </label>
                             <select name="role" id="role" value={formValues.role} onChange={onHandleChange}>
-  <option name="role" >user</option>
-  <option name="role" >admin</option>
-  </select>
+                                <option name="role" >user</option>
+                                <option name="role" >admin</option>
+                             </select>
                         </div>
-
-
-
 
 
 

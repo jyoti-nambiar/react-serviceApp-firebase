@@ -1,5 +1,7 @@
-import axios from 'axios';
 import React, { useState } from 'react'
+import {createServiceDocument} from '../firebase/services'
+import {storage} from '../firebase/config';
+
 
 function AddNewService() {
 
@@ -7,18 +9,19 @@ function AddNewService() {
 
         serviceName: "",
         description: "",
-        price: 0
+        price: 0,
+        imageUrl:""
 
     }
 
     const [formValues, setFormValues] = useState(initialValues);
     const [uploadImage, setUploadImage] = useState();
-const userId=localStorage.getItem("userId");
-const token=localStorage.getItem("jwt");
+    const [imgUrl, setimgUrl]= useState("");
     function handleOnChange(e) {
         setFormValues({ ...formValues, [e.target.name]: e.target.value })
 
     }
+
     function handleUploadImage(e) {
 console.log("This is the uploaded image",e.target.files[0]);
         setUploadImage(e.target.files[0])
@@ -26,33 +29,55 @@ console.log("This is the uploaded image",e.target.files[0]);
 
     }
 
+function handleClick(){
+const storageRef = storage.ref();
 
-    function handleOnSubmit(e) {
-        e.preventDefault();
-        axios.post(`http://localhost:1337/products?users_permissions_user.id=${userId}`, {
-            name: formValues.serviceName,
-            description: formValues.description,
-            price: formValues.price
-        },{
-    headers: {
-      Authorization: `Bearer ${token}`,
-      
-    }}).then((response) => {
-            console.log(response.data)
-            const data = new FormData();
+var uploadTask = storageRef.child(`images/${uploadImage.name}`).put(uploadImage);
 
-            data.append("files", uploadImage);
+uploadTask.on('state_changed', 
+  (snapshot) => {
+    // Observe state change events such as progress, pause, and resume
+    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+    
+    
+  }, 
+  (error) => {
+    // Handle unsuccessful uploads
+  }, 
+  () => {
+    // Handle successful uploads on complete
+    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+      console.log('File available at', downloadURL);
+      setimgUrl(downloadURL);
+    });
+  }
+);
 
-            data.append("ref", "product") // collection it belongs in db, here its product
-            data.append("refId", response.data.id)//which data it refers to 
-            data.append("field", "image")// which field it refers to in the db
 
-            axios.post("http://localhost:1337/upload", data
-            ).then((res) => { console.log(res) }).catch((err) => { console.log(err) })
+}
 
 
-        }).catch((err) => console.log(err));
 
+
+
+    function handleOnSubmit(e){
+        
+ e.preventDefault();
+
+
+const serviceName=formValues.serviceName;
+const description=formValues.description;
+const price= formValues.price;
+
+try{
+
+    createServiceDocument(serviceName, description,price,imgUrl );
+    console.log("Document successfully written!");
+}
+catch(error){
+    console.error("Error writing document: ", error);
+}; 
 
     }
 
@@ -103,6 +128,7 @@ console.log("This is the uploaded image",e.target.files[0]);
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-2/3">
                         <input type="file" name="file" onChange={handleUploadImage} />
+                        <button className="p-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 m-1" type="button" onClick={handleClick}>Upload</button>
                     </div>
                 </div>
                 <div className="md:flex md:items-center">

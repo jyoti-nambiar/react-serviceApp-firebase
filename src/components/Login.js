@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import firebase from 'firebase/app';
+import 'firebase/auth'
+import {signin,googlesignin} from '../firebase/auth';
+import {useSession} from '../firebase/UserProvider';
+
 function Login() {
 
 
     const initialValues = {
 
-        username: "",
+        email: "",
 
         password: ""
 
@@ -16,62 +20,26 @@ function Login() {
 
     const [formValues, setFormValues] = useState(initialValues)
     const [error, setError] = useState("");
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [username, setUsername] = useState("");
-const [jwt, setJwt] = useState("")
     const history = useHistory();
-
-
-useEffect(()=>{
-
-const JWT=localStorage.getItem("jwt");
-setJwt(JWT);
-
-},[])
-
-
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const {user}=  useSession();
 
     //function call for submit
-    function onHandleSubmit(e) {
+   async function onHandleSubmit(e) {
 
         e.preventDefault();
 
+       let userLogin;
+try{
+userLogin= await signin(formValues) 
 
-        // ska skickas till database via api /Api endpoint
-        axios
-            .post('http://localhost:1337/auth/local', {
-                identifier: formValues.username,
-                password: formValues.password
-            })
-            .then(response => {
-                // Handle success.
-
-                //setting token in localstorage
-                const token = response.data.jwt;
-
-                localStorage.setItem("jwt", token);
-                //setting userid,username, designation(admin or not) in local storage
-                localStorage.setItem("userId", response.data.user.id);
-                 localStorage.setItem("username", response.data.user.username);
-                 localStorage.setItem("designation",response.data.user.designation);
-                
-                setLoggedIn(true);
-                setUsername(response.data.user.username);
-                history.push("/services");
-               window.location.reload();
-            })
-            .catch(error => {
-                // Handle error.
-                console.log('An error occurred:', error.response);
-                setError(error.response.data.message[0].messages[0].message);
-
-            });
-
-
-
-
-
-
+}catch(error){
+console.log(error.message);
+setError(error.message);
+}
+if(user){
+history.push(`/profile/${userLogin.uid}`);
+}
 
     }
 
@@ -79,16 +47,34 @@ setJwt(JWT);
     //function called for input fields onchange
     function onHandleChange(e) {
 
-        setFormValues({ ...formValues, [e.target.name]: e.target.value })
+setFormValues({ ...formValues, [e.target.name]: e.target.value })
 
     }
 
+
+async function googleSignIn(){
+let googleSign;
+
+try{
+googleSign= googlesignin(provider);
+
+}catch(error){
+const err=error;
+setError(err);
+
+
+}
+if(user){
+history.push(`/profile/${user.uid}`)
+}
+    }
 
     return (
         <>
 
             <div className="h-screen flex justify-center items-center">
-                {(loggedIn||jwt) ? (<h2>Welcome {username}</h2>) : (
+                
+                {(user) ? (<h2>Welcome {user.displayName}</h2>) : (
 
 
                     <div className="w-full max-w-xs">
@@ -97,12 +83,12 @@ setJwt(JWT);
                         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={onHandleSubmit}>
 
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                                    Username
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                                    Email
       </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Password"
-                                    name="username"
-                                    value={formValues.username}
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="email" placeholder="email"
+                                    name="email"
+                                    value={formValues.email}
                                     onChange={onHandleChange}
 
                                 />
@@ -120,13 +106,23 @@ setJwt(JWT);
 
                             </div>
                             <div className="flex items-center justify-between">
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-black focus:shadow-outline" type="submit">
                                     Sign In
       </button>
+      <hr class="mb-6 border-t" />
                                 <Link className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" to="/forgot-password">
                                     Forgot Password?
       </Link>
                             </div>
+                            <div className="flex items-center justify-between">
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold m-4 py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={googleSignIn}>
+                                    <i className="fab fa-google m-2"></i>
+                                    Sign-in with google
+                                </button>
+                            </div>
+                            <Link className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 m-4" to="/register">
+                                Not Registered? Register
+                            </Link>
                         </form>
                         <p className="text-center text-gray-500 text-xs">
                             &copy;2021 Spik&Span Corp. All rights reserved.
@@ -134,6 +130,7 @@ setJwt(JWT);
                     </div >
                 )}
             </div >
+            
         </>
     )
 }

@@ -1,75 +1,53 @@
+import firebase from 'firebase'
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
 import Card from './Card'
 
-
 function CardList() {
-    const [products, setProduct] = useState([]);
-    const [loadMore, setLoadMore] = useState(6);
-    const [cardDelete, setcardDelete]=useState(false);
-    const token=localStorage.getItem("jwt");
-    const userId=localStorage.getItem("userId");
+     
+    const [products, setProducts] = useState([]);
+
+    
+
     useEffect(() => {
-        const fetchProduct = async () => {
-            const response = await axios.get(`http://localhost:1337/products?_limit=${loadMore}`);
-            //console.log(response.data);
-            setProduct(response.data);
 
-        }
-        fetchProduct();
+async function fetchData() {
+  const services = await firebase.firestore().collection('services')
+  services.get().then((querySnapshot) => {
+      const tempDoc = []
+      querySnapshot.forEach((doc) => {
+         tempDoc.push({ id: doc.id, ...doc.data() })
+      })
+      console.log(tempDoc)
+setProducts(tempDoc);
+   })
+ }
+        fetchData();
+        
 
-    }, [loadMore]);
+    }, []);
 
-    function loadMoreService() {
-        let dynamicAdd = loadMore + 3;
-        setLoadMore(dynamicAdd);
-
-
-    }
-
-    function loadLessService() {
-        let dynamicReduce = loadMore - 6;
-        setLoadMore(dynamicReduce);
-
-
-    }
+    
 
 
 function deleteItem(id) {
 //console.log("This is serviceId",id);
-axios.delete(`http://localhost:1337/products/${id}?users_permissions_user.id=${userId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      
-    }}).then(res=>{console.log(res);
-      //setcardDelete(true);
+
  
 
-     });
+     };
     
-    }
-
-
-
-
+    
 
     return (
+
         <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
-
-
-            {products.map((service) => {
-                //console.log(service.image.formats.small.url);
-                return (<Card key={service.id} serviceId={service.id} image={`http://localhost:1337${service.image.formats.thumbnail.url}`} description={service.description} name={service.name} price={service.price} btnName="Book" onDelete={deleteItem} />)
-
-
+            
+           {products.map((service) => {
+               console.log(service.description)
+                return <Card key={service.id} serviceId={service.id} image={service.imageurl} description={service.description} name={service.title} price={service.cost} btnName="Book" onDelete={deleteItem}  />
             })
-            }
-
-            {(products.length >= loadMore) ? (<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={loadMoreService}>More Service</button>) :
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={loadLessService}>Show less </button>
-
-            }
-
+            
+ }
 
         </div>
 
