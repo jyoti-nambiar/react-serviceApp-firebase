@@ -205,13 +205,13 @@ axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id
                                     <button onClick={closeModal}><i className="far fa-times-circle text-right"></i></button>
                                     <div>Booking Information</div>
                                     <form onSubmit={handleOnSubmit}>
-                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
+                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlhtmlFor="name">Name</label>
                                       {!!user && <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="text" name="serviceName" value={user.displayName} onChange={handleOnChange} />} 
-                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">Date</label>
+                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlhtmlFor="date">Date</label>
                                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="date" name="date" value={formValues.date} onChange={handleOnChange} />
-                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="time">Preferred Time</label>
+                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlhtmlFor="time">Preferred Time</label>
                                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="time" name="time"  min="09:00" max="18:00" required value={formValues.time} onChange={handleOnChange} step="2" />
-                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="telenumber">Telephone Number</label>
+                                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlhtmlFor="telenumber">Telephone Number</label>
                                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline my-2" type="number" name="mobileNum" value={formValues.mobileNum} onChange={handleOnChange} />
                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" >Submit</button>
 
@@ -257,7 +257,7 @@ axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id
             <form className="w-full max-w-sm" onSubmit={updateItem}>
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlhtmlFor="inline-full-name">
                             Service Name
       </label>
                     </div>
@@ -269,7 +269,7 @@ axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id
                 </div>
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="description">
+                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlhtmlFor="description">
                             Description
       </label>
                     </div>
@@ -283,7 +283,7 @@ axios.put(`http://localhost:1337/products/${serviceId}?users_permissions_user.id
                 </div>
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlhtmlFor="inline-full-name">
                             Price
       </label>
                     </div>

@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer'
 
 import './firebase/config';
-import {BookingContext, Provider} from './components/BookingContext';
+import {BookingContext} from './components/BookingContext';
 import {UserProvider} from './firebase/UserProvider';
 
 function App() {

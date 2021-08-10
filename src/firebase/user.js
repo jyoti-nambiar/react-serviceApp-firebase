@@ -1,4 +1,5 @@
-import {firestore} from './config'
+
+import {firestore, storage} from './config'
 
 export const createUserDocument= async (user)=>{
 
@@ -23,3 +24,28 @@ const userProfile={
 
 }
 
+export const uploadImage=(userId, file)=>{    
+  return new Promise ((resolve, reject)=> { //file references
+const filePath=`users/${userId}/Profile-image`;
+const fileRef=storage.ref().child(filePath)
+
+//upload task
+
+const uploadTask=fileRef.put(file);
+
+//on State change
+
+uploadTask.on('state_changed', null,
+ (error)=> reject(error), 
+()=>{resolve(uploadTask.snapshot.ref)})
+})
+}
+
+
+export const downloadUrl=(userId)=>{
+
+const filePath=`users/${userId}/Profile-image`;
+return storage.ref().child(filePath).getDownloadURL();
+
+
+}

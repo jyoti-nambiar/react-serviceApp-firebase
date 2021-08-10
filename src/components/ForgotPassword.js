@@ -16,15 +16,16 @@ console.log(e.target.value);
        
         try{
 resetPassword(formValue).then((res)=>{
-console.log(res);
-
+if(res.data){
+    console.log("password undated successfully");
+}
 
 })
 
         }catch(error){    
     var errorCode = error.code;
     var errorMessage = error.message;
-    console.log(errorMessage);
+    console.log("Error code:"+errorCode+" : "+errorMessage);
     
   };
 
@@ -53,7 +54,7 @@ console.log(res);
                             </div>
                             <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded" onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
+                                    <label className="block mb-2 text-sm font-bold text-gray-700" htmlhtmlFor="email">
                                         Email
 								</label>
                                     <input

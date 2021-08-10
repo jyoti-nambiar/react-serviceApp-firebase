@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import {firestore} from '../firebase/config'
 import {useParams} from 'react-router-dom'
-
+import ProfileImage from './ProfileImage';
 const Profile=()=>{
 
 
@@ -69,42 +69,39 @@ return null;
 const formCass= `big-form ${isLoading?'loading':' '}`;
 
 return(
-    <div class="container mx-auto">
-			<div class="flex justify-center px-6 my-12">
+    <div className="container mx-auto">
+			<div className="flex justify-center px-6 my-12">
 			
-				<div class="w-full xl:w-3/4 lg:w-11/12 flex">
-				
-					<div
-						class="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
-						style={{backgroundImage: `url('https://source.unsplash.com/Mv9hjnEUHR4/600x800')`}}
-					>
-<button className="p-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 m-1" type="button" >Upload</button>
+				<div className="w-full xl:w-3/4 lg:w-11/12 flex">
+				<div className="w-full xl:w-3/4 lg:w-11/12 flex flex-col">
+					
+					<ProfileImage id={params.id} />
 
-
-					</div>
+</div>
+					
 				
-					<div class="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
-						<h3 class="pt-4 text-2xl text-center">My Profile!</h3>
-						<form class={`px-8 pt-6 pb-8 mb-4 bg-white rounded ${formCass}`} onSubmit={handleOnSubmit}>
-							<div class="mb-4 md:flex md:justify-between">
-								<div class="mb-4 md:mr-2 md:mb-0">
-									<label class="block mb-2 text-sm font-bold text-gray-700" for="firstName">
+					<div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
+						<h3 className="pt-4 text-2xl text-center">My Profile!</h3>
+						<form className={`px-8 pt-6 pb-8 mb-4 bg-white rounded ${formCass}`} onSubmit={handleOnSubmit}>
+							<div className="mb-4 md:flex md:justify-between">
+								<div className="mb-4 md:mr-2 md:mb-0">
+									<label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="firstName">
 										First Name
 									</label>
 									<input
-										class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										name="firstName"
 										type="text"
-                    value={userDocument.firstName}
-                    onChange={handleOnChange}
+										value={userDocument.firstName}
+										onChange={handleOnChange}
 									/>
 								</div>
-								<div class="md:ml-2">
-									<label class="block mb-2 text-sm font-bold text-gray-700" for="lastName">
+								<div className="md:ml-2">
+									<label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="lastName">
 										Last Name
 									</label>
 									<input
-										class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										name="lastName"
 										type="text"
 										placeholder="Last Name"
@@ -115,12 +112,12 @@ return(
 									/>
 								</div>
 							</div>
-							<div class="mb-4">
-								<label class="block mb-2 text-sm font-bold text-gray-700" for="email">
+							<div className="mb-4">
+								<label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
 									Email
 								</label>
 								<input
-									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 									name="email"
 									type="email"
 									placeholder="Email"
@@ -128,13 +125,13 @@ return(
                    onChange={handleOnChange}
 								/>
 							</div>
-							<div class="mb-4 md:flex md:justify-between">
-								<div class="mb-4 md:mr-2 md:mb-0">
-									<label class="block mb-2 text-sm font-bold text-gray-700" for="password">
+							<div className="mb-4 md:flex md:justify-between">
+								<div className="mb-4 md:mr-2 md:mb-0">
+									<label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
 										Address
 									</label>
 									<input
-										class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										name="address"
 										type="text"
                     value={userDocument.address}
@@ -142,12 +139,12 @@ return(
 									/>
 						
 								</div>
-								<div class="md:ml-2">
-									<label class="block mb-2 text-sm font-bold text-gray-700" for="c_password">
+								<div className="md:ml-2">
+									<label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="c_password">
 										City
 									</label>
 									<input
-										class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										name="city"
 										type="text"
 										placeholder=""
@@ -156,13 +153,13 @@ return(
 									/>
 								</div>
 							</div>
-              	<div class="mb-4 md:flex md:justify-between">
-								<div class="mb-4 md:mr-2 md:mb-0">
-									<label class="block mb-2 text-sm font-bold text-gray-700" for="Zipcode">
+              	<div className="mb-4 md:flex md:justify-between">
+								<div className="mb-4 md:mr-2 md:mb-0">
+									<label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="Zipcode">
 										Zipcode
 									</label>
 									<input
-										class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										name="zipcode"
 										type="text"
 										placeholder=""
@@ -171,12 +168,12 @@ return(
 									/>
 						
 								</div>
-								<div class="md:ml-2">
-									<label class="block mb-2 text-sm font-bold text-gray-700" for="phonenumber">
+								<div className="md:ml-2">
+									<label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="phonenumber">
 										Phone number
 									</label>
 									<input
-										class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										name="phone"
 										type="tel"
 										placeholder=""
@@ -185,9 +182,9 @@ return(
 									/>
 								</div>
 							</div>
-							<div class="mb-6 text-center">
+							<div className="mb-6 text-center">
 								<button
-									class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+									className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
 									type="submit"
 								>
 									Update Profile

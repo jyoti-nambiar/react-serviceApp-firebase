@@ -1,4 +1,4 @@
-import {createContext,useState, useContext,useEffect} from 'react';
+import {createContext,useState,useEffect} from 'react';
 import {useSession} from '../firebase/UserProvider';
 import {firestore} from '../firebase/config';
 export const BookingContext =createContext();
