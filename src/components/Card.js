@@ -93,13 +93,15 @@ console.log("This is the uploaded image",e.target.files[0]);
            uid:user.uid ,
            title:name ,
            time : formValues.time,
+           date:formValues.date,
            contactInfo: formValues.mobileNum,
            cost:price,
-            imageUrl:image
+           imageUrl:image,
+           serviceId:serviceId
         }
             firebase.auth().onAuthStateChanged(user=>{
             if(user){
-                console.log(user.id)
+                
             newBookingRef.add(bookingData).then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
             })

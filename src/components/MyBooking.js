@@ -6,15 +6,18 @@ import {useSession} from '../firebase/UserProvider';
 function MyBooking() {
 
 const [bookings, setBookings] = useState([]);
+const[bookingUpdate, setbookingUpdate]= useState(true);
 
 const {user}= useSession();
 
 
-//fetch data from strapi
+//fetch data from firebase
   useEffect(()=>{
+if(bookingUpdate){
+
 const fetchData= async ()=>{
 
-firestore.collection("userBookings").where("uid", "==", `${user.uid}` )
+ await firestore.collection("userBookings").where("uid", "==", `${user.uid}` )
     .get()
     .then((querySnapshot) => {
         const tempDoc = []
@@ -29,13 +32,20 @@ setBookings(tempDoc);
         console.log("Error getting documents: ", error);
     });
   
-  
-
 }
 
 fetchData();
 
-    }, [user.uid]);
+ setbookingUpdate(false);
+
+   } }, [user.uid, bookingUpdate]);
+
+
+console.log("this is the state",bookingUpdate);
+
+
+
+
 
 
     return (
@@ -44,7 +54,7 @@ fetchData();
        
 {bookings.map( (booking)=>{
     
- return(<><BookingCard key={booking.id} cardId={booking.id} image={booking.imageUrl }product={booking.title} date={booking.date} time={booking.time} price={booking.cost} changeState={(cardDelete)=>{}} />
+ return(<><BookingCard key={booking.id} cardId={booking.id} image={booking.imageUrl }product={booking.title}  date={booking.date} time={booking.time} price={booking.cost} setbookingUpdate={setbookingUpdate} />
 
 </>
    ); 
