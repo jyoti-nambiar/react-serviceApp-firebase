@@ -158,9 +158,53 @@ function Card({
         setUpdateIsOpen(false);
     }
 
-    function updateItem() {};
+    function updateItem(e) {
+ 
+        e.preventDefault();
+        const serviceRef = firestore
+            .collection("services")
+            .doc(`${serviceId}`);
 
-    return ( <> <div
+        // Set the "capital" field of the service
+        serviceRef
+            .update({
+               title:title,
+                description:description,
+                cost:cost,
+                imageurl:imageurl,
+                id:docRef.id
+            
+
+
+
+
+            })
+            .then(() => {
+
+                console.log("Document successfully updated!");
+                setbookingUpdate(true)
+                closeModalReschedule();
+
+            })
+            .catch((error) => {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+    };
+
+    return (<div
         className="max-w-sm rounded overflow-hidden transition duration-500 ease-in-out bg-white-600 hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110  ">
         <div>
 
@@ -362,7 +406,7 @@ function Card({
             </div>
 
         </div>
-    </div> < />
+    </div> 
 
 
 
