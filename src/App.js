@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer'
 
 import './firebase/config';
-import {BookingContext} from './components/BookingContext';
+import {BookingProvider} from './components/BookingContext';
 import {UserProvider} from './firebase/UserProvider';
 
 function App() {
@@ -12,12 +12,13 @@ function App() {
 
   return (
     <UserProvider>
-    <BookingContext.Provider>
+    <BookingProvider>
       <Navbar />
-      </BookingContext.Provider>
+     
       <AppRoute />
+      
       <Footer />
-    
+     </BookingProvider>
     </UserProvider>
   );
 }

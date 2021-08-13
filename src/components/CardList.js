@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 import React, { useState, useEffect } from 'react'
 import Card from './Card'
-
+import {firestore} from '../firebase/config';
 function CardList() {
      
     const [products, setProducts] = useState([]);
@@ -9,20 +9,18 @@ function CardList() {
     
 
     useEffect(() => {
+  const serviceRef = firestore.collection('services');
+  const unsubscribe= serviceRef.onSnapshot((querySnapshot) => {
+     
+    const service= querySnapshot.docs.map((doc) => 
+         doc.data() )
+console.log(service);
+setProducts(service);
 
-async function fetchData() {
-  const services = await firebase.firestore().collection('services')
-  services.get().then((querySnapshot) => {
-      const tempDoc = []
-      querySnapshot.forEach((doc) => {
-         tempDoc.push({ id: doc.id, ...doc.data() })
       })
-      console.log(tempDoc)
-setProducts(tempDoc);
-   })
- }
-        fetchData();
-        
+      
+return unsubscribe;
+       
 
     }, []);
 
@@ -43,7 +41,6 @@ function deleteItem(id) {
         <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
             
            {products.map((service) => {
-               console.log(service.description)
                 return <Card key={service.id} serviceId={service.id} image={service.imageurl} description={service.description} name={service.title} price={service.cost} btnName="Book" onDelete={deleteItem}  />
             })
             

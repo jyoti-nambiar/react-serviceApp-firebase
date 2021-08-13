@@ -2,6 +2,9 @@ body {
   background-color: #f9f9f9 !important;
   font-size: 15px;
   font-family: "Titillium Web", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a {
@@ -87,4 +90,8 @@ header h2 {
 .upload-button {
   float: right;
   margin-top: 20px;
+}
+.footer-div {
+  position: relative;
+  bottom: 0;
 }

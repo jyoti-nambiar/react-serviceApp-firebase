@@ -28,7 +28,7 @@ downloadUrl(id).then(url=>!!url && setImageUrl(url));
 
     return (
         <>
-            <img className="w-full h-auto lg:w-5/12 rounded" src={imageUrl} alt="profile-img"
+            <img className="w-full h-auto lg:w-5/12 rounded" src={imageUrl||'https://source.unsplash.com/Mv9hjnEUHR4/600x800'} alt="profile-img"
 					/>
 					<div className="md:w-2/3">
                         <input className="m-2 hidden" 

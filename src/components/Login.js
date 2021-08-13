@@ -22,23 +22,23 @@ function Login() {
     const [error, setError] = useState("");
     const history = useHistory();
     const provider = new firebase.auth.GoogleAuthProvider();
-    const {user}=  useSession();
+    const {user, isAdmin}=  useSession();
 
-    //function call for submit
+    //function call for loggin in user on form submit
    async function onHandleSubmit(e) {
 
         e.preventDefault();
 
        let userLogin;
 try{
-userLogin= await signin(formValues) 
+await signin(formValues) 
 
 }catch(error){
 console.log(error.message);
 setError(error.message);
 }
 if(user){
-history.push(`/profile/${userLogin.uid}`);
+routeOnLogin(user);
 }
 
     }
@@ -51,9 +51,8 @@ setFormValues({ ...formValues, [e.target.name]: e.target.value })
 
     }
 
-
+//oauth login using gmail signin
 async function googleSignIn(){
-
 
 try{
 googlesignin(provider);
@@ -62,19 +61,34 @@ googlesignin(provider);
 const err=error;
 setError(err);
 
-
 }
 if(user){
-history.push(`/profile/${user.uid}`)
+routeOnLogin(user);
 }
-    }
+
+ }
+
+const routeOnLogin=async (user)=>{
+
+const token=await user.getIdTokenResult();
+if(token.claims.admin){
+    history.push('./appUser');
+}else{
+history.push(`/profile/${user.uid}`)
+
+}
+
+
+}
+
+   
 
     return (
         <>
 
             <div className="h-screen flex justify-center items-center">
                 
-                {(user) ? (<h2>Welcome {user.displayName}</h2>) : (
+                {(user) ? (<h2>Welcome {user.displayName}</h2>) : ((isAdmin)?(<h2>Welcome admin</h2>):(
 
 
                     <div className="w-full max-w-xs">
@@ -83,7 +97,7 @@ history.push(`/profile/${user.uid}`)
                         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={onHandleSubmit}>
 
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlhtmlFor="email">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                                     Email
       </label>
                                 <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="email" placeholder="email"
@@ -94,7 +108,7 @@ history.push(`/profile/${user.uid}`)
                                 />
                             </div>
                             <div className="mb-6">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlhtmlFor="password">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                                     Password
       </label>
                                 <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password"
@@ -128,7 +142,7 @@ history.push(`/profile/${user.uid}`)
                             &copy;2021 Spik&Span Corp. All rights reserved.
   </p>
                     </div >
-                )}
+                ))}
             </div >
             
         </>

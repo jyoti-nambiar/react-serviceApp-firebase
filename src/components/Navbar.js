@@ -3,12 +3,12 @@ import {BookingContext} from '../components/BookingContext';
 import { Link , useHistory} from 'react-router-dom'
 import {logout} from '../firebase/auth'
 import {useSession} from '../firebase/UserProvider';
-function Navbar(props) {
+function Navbar() {
 
-const context= useContext(BookingContext.Provider);
+const context= useContext(BookingContext);
 console.log("this is context", context);
 const history= useHistory();
-const {user}= useSession();
+const {user, isAdmin}= useSession();
 
 
  const logoutFunc=async ()=>{
@@ -29,7 +29,7 @@ history.push('/login');
 
             <Link className="pl-8 text-3xl font-bold text-black-500" to="/">Spik&Span <i className="fas fa-spray-can"></i></Link>
         < div className="pr-8">
-          {!!user  &&  <p className="float-right">{`Welcome ${user.displayName}`}</p>}
+          {(user && isAdmin!==true) ? (<p className="float-right"> {`Welcome ${user.displayName}`}</p>):(user && isAdmin)?(<p className="float-right">{`Welcome admin`}</p>):(<></>)}
             </div>
 
             < div className="pr-8">
@@ -39,12 +39,14 @@ history.push('/login');
                 <Link className="p-4" to="/about">About Us</Link>
                 <Link className="p-4" to="/myBooking">My Booking
               {console.log(context)}
-                <span className="p-1">({props.context})</span>
+                <span className="p-1">({context})</span>
               
                 </Link>
                 
                 {/*Person with role admin can see Add new service */}
-                <Link className="p-4" to="/addNewService">Add Service</Link> 
+         {(!!user&& isAdmin)? (<><Link className="p-4" to="/addNewService">Add New Service</Link>
+         <Link className="p-4" to="/appUser">Customer Profile</Link></>
+         ):<></> }      
 
             {user? <Link className="p-4" to={`/profile/${user.uid}`}> Profile</Link>:<></> }
 

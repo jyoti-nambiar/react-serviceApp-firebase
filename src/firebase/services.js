@@ -3,17 +3,17 @@ import {firestore} from './config'
 export const createServiceDocument= async (title, description, cost, imageurl)=>{
 
 //get a reference to firebase firestore
-const docRef= firestore.collection('services');
+const docRef= firestore.collection('services').doc();
 
-//create user object
-const serviceInfo={
-    title:title,
+
+ //write to cloud firestore
+ return docRef.set({
+title:title,
     description:description,
     cost:cost,
-    imageurl:imageurl
-    
-}
- //write to cloud firestore
- return docRef.add(serviceInfo);
+    imageurl:imageurl,
+    id:docRef.id
+
+ });
 
 }

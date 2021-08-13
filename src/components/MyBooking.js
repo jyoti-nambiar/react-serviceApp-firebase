@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
 import BookingCard from './BookingCard';
 import {firestore} from '../firebase/config';
 import {useSession} from '../firebase/UserProvider';
@@ -7,44 +7,34 @@ function MyBooking() {
 
 const [bookings, setBookings] = useState([]);
 const[bookingUpdate, setbookingUpdate]= useState(true);
+const[userId, setUserId]= useState(null);
 
 const {user}= useSession();
 
 
 //fetch data from firebase
   useEffect(()=>{
+
 if(bookingUpdate){
 
-const fetchData= async ()=>{
+if(user){
 
- await firestore.collection("userBookings").where("uid", "==", `${user.uid}` )
-    .get()
-    .then((querySnapshot) => {
-        const tempDoc = []
-        
-      querySnapshot.forEach((doc) => {
-         tempDoc.push({ id: doc.id, ...doc.data() })
-      })
-      console.log(tempDoc)
-setBookings(tempDoc);
+setUserId(user.uid);
 
-        }).catch((error) => {
-        console.log("Error getting documents: ", error);
-    });
-  
 }
+ const serviceRef= firestore.collection("userBookings").where("uid", "==", `${userId}` );
+   const unsubscribe=serviceRef.onSnapshot((querySnapshot) => {
+        const service=querySnapshot.docs.map((doc) => 
+         doc.data() )
+console.log(service)
+setBookings(service);
 
-fetchData();
-
+      })
+      
+return unsubscribe;
  setbookingUpdate(false);
 
-   } }, [user.uid, bookingUpdate]);
-
-
-console.log("this is the state",bookingUpdate);
-
-
-
+   }} , [user, userId, bookingUpdate]);
 
 
 
