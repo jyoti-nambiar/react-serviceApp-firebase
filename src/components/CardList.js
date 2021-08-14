@@ -27,12 +27,7 @@ return unsubscribe;
     
 
 
-function deleteItem(id) {
-//console.log("This is serviceId",id);
 
- 
-
-     };
     
     
 
@@ -41,7 +36,7 @@ function deleteItem(id) {
         <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
             
            {products.map((service) => {
-                return <Card key={service.id} serviceId={service.id} image={service.imageurl} description={service.description} name={service.title} price={service.cost} btnName="Book" onDelete={deleteItem}  />
+                return <Card key={service.id} serviceId={service.id} image={service.imageurl} description={service.description} name={service.title} price={service.cost} btnName="Book"  />
             })
             
  }

@@ -47,7 +47,7 @@ function Card({
     const [uploadImage,
         setUploadImage] = useState();
     const username = localStorage.getItem("username");
-    const {user} = useSession();
+    const {user, isAdmin} = useSession();
     const userId = localStorage.getItem("userId");
 
     const customStyles = {
@@ -146,7 +146,27 @@ function Card({
     }
 
     //delete function
-    const deleteItem = () => onDelete(serviceId);
+    function deleteItem(e){
+
+ e.preventDefault();
+        firestore
+            .collection("services")
+            .doc(`${serviceId}`)
+            .delete()
+            .then(() => {
+                console.log("Document successfully deleted!");
+                
+                closeModal();
+
+            })
+            .catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+
+
+
+
+    }
 
     //Update Function
     function openModalUpdate() {
@@ -159,45 +179,30 @@ function Card({
     }
 
     function updateItem(e) {
- 
-        e.preventDefault();
+         e.preventDefault();
         const serviceRef = firestore
             .collection("services")
             .doc(`${serviceId}`);
 
         // Set the "capital" field of the service
-        serviceRef
+       return serviceRef
             .update({
-               title:title,
-                description:description,
-                cost:cost,
-                imageurl:imageurl,
-                id:docRef.id
-            
-
-
-
-
+               title:formValuesUpdate.serviceName,
+                description:formValuesUpdate.description,
+                cost:formValuesUpdate.price,
+                
             })
             .then(() => {
 
                 console.log("Document successfully updated!");
-                setbookingUpdate(true)
-                closeModalReschedule();
+                
+               closeModalUpdate();
 
             })
             .catch((error) => {
                 // The document probably doesn't exist.
                 console.error("Error updating document: ", error);
             });
-
-
-
-
-
-
-
-
 
 
 
@@ -286,10 +291,14 @@ function Card({
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
 
                             </form>
-                        </Modal>{(username === "admin") &&<> <ButtonRed btnValue="Delete" onClickFunc={openModalDelete}/> < ButtonGreen btnValue = "Update" onClickFunc = {
+                        </Modal>
+
+                        {/*update and delete button for admin */}
+                        {(!!user & isAdmin) &&<> <ButtonRed btnValue="Delete" onClickFunc={openModalDelete}/> < ButtonGreen btnValue = "Update" onClickFunc = {
                             openModalUpdate
                         } /> </>
-} {/*Delete modal */}
+                        }
+                         {/*Delete modal */}
                         <Modal
                             isOpen={deletemodalIsOpen}
                             onRequestClose={closeModalDelete}
@@ -312,7 +321,7 @@ function Card({
                                     type="submit">Yes</button>
                             </form>
                         </Modal>
-
+                        {/*Update Modal */}
                         <Modal
                             isOpen={updatemodalIsOpen}
                             onRequestClose={closeModalUpdate}
