@@ -16,6 +16,10 @@ match /userBookings/{document=**}
       allow read, write: if true;
     }
 
+match /customerComments/{document=**} 
+  {
+      allow read, write: if true;
+    }
 
   }
 }

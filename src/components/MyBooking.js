@@ -40,7 +40,7 @@ return unsubscribe;
 
     return (
 
-    <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 content-evenly m-2.5 px-2 py-2 ">
        
 {bookings.map( (booking)=>{
     

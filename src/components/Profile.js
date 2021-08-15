@@ -1,9 +1,12 @@
+import firebase from 'firebase/app';
 import React, {useEffect, useState} from 'react';
 import {firestore} from '../firebase/config'
 import {useParams} from 'react-router-dom'
 import ProfileImage from './ProfileImage';
 import {useSession} from '../firebase/UserProvider'
-
+import { useHistory } from 'react-router-dom';
+import ButtonRed from './ButtonRed';
+import {logout} from '../firebase/auth'
 const Profile = () => {
 
     // const[formValue, setFormValues]=useState(initialValue)
@@ -12,7 +15,8 @@ const Profile = () => {
     const [isLoading,
         setIsLoading] = useState(false);
     const params = useParams();
-	const {user, isAdmin}= useSession();
+	const {user}= useSession();
+    const history = useHistory();
 
     useEffect(() => {
 
@@ -25,19 +29,7 @@ const Profile = () => {
 
                 setUserDocument(data);
                 console.log(data);
-            }else if(!!user && isAdmin){
-
-		setUserDocument({
-firstName:"Admin",
-lastName:"user",
-email:"theadminUser@gmail.com",
-address:"",
-city:"",
-zipcode:"",
-phone:""
-
-		})
-			}
+            			}
 
         })
 
@@ -80,6 +72,37 @@ phone:""
         })
 
     }
+
+const deleteProfile=(e) =>{
+     e.preventDefault();
+     firestore.collection("users")
+            .doc(`${params.id}`)
+            .delete()
+            .then(() => {
+                console.log("Document successfully deleted!");
+               const userDelete = firebase.auth().currentUser; 
+               userDelete.delete().then(() => {
+               logout();
+                history.push('/login');
+               }
+               
+               )} )
+.catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+
+        
+        
+        
+        }
+            
+
+
+       
+        
+    
+
+
 
     if (!userDocument) {
         return null;
@@ -211,6 +234,7 @@ phone:""
                                     type="submit">
                                     Update Profile
                                 </button>
+                                <ButtonRed btnValue="Delete Profile"  onClickFunc={deleteProfile}  />
                             </div>
 
                         </form>

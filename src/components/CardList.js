@@ -33,7 +33,7 @@ return unsubscribe;
 
     return (
 
-        <div className="grid grid-cols-3 gap-10 content-evenly m-10   ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 content-evenly m-2.5 px-2 py-2" >
             
            {products.map((service) => {
                 return <Card key={service.id} serviceId={service.id} image={service.imageurl} description={service.description} name={service.title} price={service.cost} btnName="Book"  />

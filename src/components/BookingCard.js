@@ -226,11 +226,15 @@ function BookingCard({
 
                     </form>
                 </Modal>
-
-                <button role="link" onClick={handleClick}>
-                    Checkout
-                </button>
-
+                <span
+                    className="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2">
+                    <button
+                        className="p-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 m-1"
+                        role="link"
+                        onClick={handleClick}>
+                        Checkout
+                    </button>
+                </span>
             </div>
         </div>
 

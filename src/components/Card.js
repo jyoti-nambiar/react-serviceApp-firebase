@@ -1,10 +1,10 @@
-import axios from 'axios';
+
 import React, {useState} from 'react'
 import Modal from 'react-modal';
 import ButtonRed from './ButtonRed';
 import ButtonGreen from './ButtonGreen';
 import {useSession} from '../firebase/UserProvider';
-import {firestore} from '../firebase/config';
+import {firestore, storage} from '../firebase/config';
 import firebase from 'firebase/app';
 
 function Card({
@@ -14,7 +14,7 @@ function Card({
     price,
     btnName,
     description,
-    onDelete
+    
 }) {
     const initialValues = {
 
@@ -46,6 +46,7 @@ function Card({
         setFormValuesUpdate] = useState(initialValuesForUpdate);
     const [uploadImage,
         setUploadImage] = useState();
+        const [updateImgUrl, setUpdateImgUrl]=useState("");
     const username = localStorage.getItem("username");
     const {user, isAdmin} = useSession();
     const userId = localStorage.getItem("userId");
@@ -122,7 +123,7 @@ function Card({
                         id: newBookingRef.id
 
                     })
-                        .then((docRef) => {
+                        .then(() => {
                             console.log("Document written to firestore");
                         })
                         .catch((error) => {
@@ -178,6 +179,38 @@ function Card({
         setUpdateIsOpen(false);
     }
 
+//Image upload 
+
+ function handleClick() {
+        const storageRef = storage.ref();
+
+        var uploadTask = storageRef
+            .child(`images/${uploadImage.name}`)
+            .put(uploadImage);
+
+        uploadTask.on('state_changed', (snapshot) => {
+            // Observe state change events such as progress, pause, and resume Get task
+            // progress, including the number of bytes uploaded and the total number of bytes
+            // to be uploaded
+
+        }, (error) => {
+            console.log(error);
+        }, () => {
+            // Handle successful uploads on complete For instance, get the download URL:
+            // https://firebasestorage.googleapis.com/...
+            uploadTask
+                .snapshot
+                .ref
+                .getDownloadURL()
+                .then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    setUpdateImgUrl(downloadURL);
+                });
+        });
+
+    }
+
+
     function updateItem(e) {
          e.preventDefault();
         const serviceRef = firestore
@@ -190,7 +223,7 @@ function Card({
                title:formValuesUpdate.serviceName,
                 description:formValuesUpdate.description,
                 cost:formValuesUpdate.price,
-                
+                imageurl:updateImgUrl
             })
             .then(() => {
 
@@ -394,6 +427,10 @@ function Card({
                                 <div className="md:flex md:items-center mb-6">
                                     <div className="md:w-2/3">
                                         <input type="file" name="file" onChange={handleUploadImage}/>
+                                        <button
+                            className="p-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 m-1"
+                            type="button"
+                            onClick={handleClick}>Upload</button>
                                     </div>
                                 </div>
                                 <div className="md:flex md:items-center">

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
 import CustomerCard from './CustomerCard'
-
+import {firestore} from '../firebase/config';
 
 
 function CustomerCardList() {
@@ -9,20 +8,20 @@ function CustomerCardList() {
     const [customer, setCustomer] = useState([]);
 
     useEffect(() => {
+  const customerRef = firestore.collection('customerComments');
+  const unsubscribe= customerRef.onSnapshot((querySnapshot) => {
+     
+    const customer= querySnapshot.docs.map((doc) => 
+         doc.data() )
+console.log(customer);
+setCustomer(customer);
 
-        const fetchCustomer = async () => {
-            const response = await axios.get("http://localhost:1337/customers");
+      })
+      
+return unsubscribe;
+       
 
-           // console.log(response.data);
-            setCustomer(response.data);
-
-        }
-
-        fetchCustomer();
-    }
-
-
-        , []);
+    }, []);
 
 
     return (
@@ -30,7 +29,7 @@ function CustomerCardList() {
         <div className="flex flex-row p-20 justify-center align-center ">
             {customer.map((customer) => {
                 //console.log(customer.image.formats.thumbnail.url)
-                return (<CustomerCard key={customer.id} image={`http://localhost:1337${customer.image.formats.thumbnail.url}`} customerName={customer.name} content={customer.comment} />)
+                return (<CustomerCard key={customer.id} image={customer.imageUrl} customerName={customer.name} content={customer.comment} />)
 
 
             })
