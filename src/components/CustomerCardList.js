@@ -13,7 +13,6 @@ function CustomerCardList() {
      
     const customer= querySnapshot.docs.map((doc) => 
          doc.data() )
-console.log(customer);
 setCustomer(customer);
 
       })
