@@ -21,8 +21,8 @@ function Navbar() {
         <nav className="flex justify-between items-center bg-white text-black relative shadow-lg h-20 font-serif">
 
             {/*Website Logo */}
-            <Link className="pl-8 text-3xl font-bold text-black-500" to="/">Spik&Span
-                <i className="fas fa-spray-can"></i>
+            <Link className="pl-8 text-3xl font-bold text-black-500 m-1" to="/">Spik&Span
+                <i className="fas fa-spray-can "></i>
             </Link>
             < div className="pr-8">
                 {(user && isAdmin !== true)
@@ -37,7 +37,7 @@ function Navbar() {
                         : ( <></>)}
             </div>
 
-            < div className="pr-8 hidden md:block">
+            < div className="pr-8 hidden lg:block">
 
                 <Link className="p-4" to="/">Home</Link>
                 <Link className="p-4" to="/services">Our Services</Link>
@@ -52,11 +52,11 @@ function Navbar() {
                 }
 
                 {/*Person with role admin can see Add new service */}
-                {(!!user && isAdmin)
-                    ? (<>< Link className = "p-4" to = "/addNewService" > Add New Service </Link>
+                {(!!user && isAdmin)&&
+                     (<>< Link className = "p-4" to = "/addNewService" > Add New Service </Link>
          <Link className="p-4" to="/appUser ">Customer Profile</Link></>
 )
-                    : <></>}
+                    }
 
 
                 {!user
@@ -64,7 +64,7 @@ function Navbar() {
                         <Link className="p-4" to="/login">Login</Link></>):((<button  onClick={logoutFunc}>Logout</button>))}
 
             </div>
- <div className="-mr-2 flex md:hidden">
+ <div className="ml-2 flex lg:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
@@ -120,18 +120,18 @@ function Navbar() {
           leaveTo="opacity-0 scale-95"
         >
           {(ref) => (
-            <div className="md:hidden" id="mobile-menu">
-              <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col bg-white">
-                <Link className="p-4" to="/services">Our Services</Link>
-                {(!!user) && <><Link className="p-4" to="/myBooking">My Booking
+            <div className="lg:hidden z-1" id="mobile-menu">
+              <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col bg-white z-1">
+                {(!!user) && <>
+                <Link className="p-4" to={`/profile/${user.uid}`}>
+                            Profile</Link>
+                            <Link className="p-4" to="/myBooking">My Booking
                     <span className="p-1">({context})</span>
 
                 </Link>
-                <Link className="p-4" to={`/profile/${user.uid}`}>
-                            Profile</Link>
                 </>
                 }
-
+              <Link className="p-4" to="/services">Our Services</Link>
                 {/*Person with role admin can see Add new service */}
                 {(!!user && isAdmin)
                     && (<>< Link className = "p-4" to = "/addNewService" > Add New Service </Link>

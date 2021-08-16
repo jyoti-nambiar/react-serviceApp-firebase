@@ -1,10 +1,30 @@
-# Getting Started with Create React App
+# BookingApp2021
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This App was developed using npm 7.15.0 and react project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This Project is a Simple ReactJS Project with Firebase used for its backend solution which demonstrates the following,
 
-## Available Scripts
+1. Creating functional Component in React
+2. Managing State of components
+3. Firebase setup
+4. Authentication
+5. Firestore Database: Retrieve and push data
+6. Cloud Storage: Upload file and save to database
+7. Admin authentication & authorization
+8. Stripe integration for payment using card
 
-In the project directory, you can run:
+## Getting Started
+
+1. Clone project and install dependencies.
+
+   > git clone
+   > cd bookingapp2021
+   > npm install
+
+2. Create your Firebase Project in http://console.firebase.google.com.
+3. Copy config in dashboard's Web Setup and paste to firebase/config.js.
+4. Create your Stripe account in https://dashboard.stripe.com/register.
+5. Create a new project in https://dashboard.stripe.com/test/dashboard
+6. Copy config set up using https://stripe.com/docs/checkout/integration-builder
 
 ### `npm start`
 

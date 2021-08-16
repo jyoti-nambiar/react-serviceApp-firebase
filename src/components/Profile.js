@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {firestore} from '../firebase/config'
 import {useParams} from 'react-router-dom'
 import ProfileImage from './ProfileImage';
-import {useSession} from '../firebase/UserProvider'
 import { useHistory } from 'react-router-dom';
 import ButtonRed from './ButtonRed';
 import {logout} from '../firebase/auth'
@@ -12,10 +11,7 @@ const Profile = () => {
     // const[formValue, setFormValues]=useState(initialValue)
     const [userDocument,
         setUserDocument] = useState(null);
-    const [isLoading,
-        setIsLoading] = useState(false);
     const params = useParams();
-	const {user}= useSession();
     const history = useHistory();
 
     useEffect(() => {
@@ -28,7 +24,7 @@ const Profile = () => {
                 const data = document.data();
 
                 setUserDocument(data);
-                console.log(data);
+                
             			}
 
         })
@@ -41,7 +37,6 @@ const Profile = () => {
         const docRef = firestore
             .collection("users")
             .doc(params.id);
-        setIsLoading(true);
         
         return docRef
             .update({
@@ -56,7 +51,7 @@ const Profile = () => {
         })
             .then(() => {
                 console.log("Document successfully updated!");
-                setIsLoading(false);
+                
             })
             .catch((error) => {
                 // The document probably doesn't exist.
@@ -97,20 +92,19 @@ const deleteProfile=(e) =>{
         }
             
 
-
-       
-        
-    
-
-
-
     if (!userDocument) {
-        return null;
+        return(
+ <div className="h-screen flex flex-col p-20 justify-center items-center bg-gray-300">
+     <p>Register with us to create your profile
+
+     </p>
+ </div>
+
+
+        )
 
     }
-    const formClass = `big-form ${isLoading
-        ? 'loading'
-        : ' '}`;
+    
 
     return (
         <div className="container mx-auto">
@@ -126,7 +120,7 @@ const deleteProfile=(e) =>{
                     <div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
                         <h3 className="pt-4 text-2xl text-center">My Profile!</h3>
                         <form
-                            className={`px-8 pt-6 pb-8 mb-4 bg-white rounded ${formClass}`}
+                            className="px-8 pt-6 pb-8 mb-4 bg-white rounded"
                             onSubmit={handleOnSubmit}>
                             <div className="mb-4 md:flex md:justify-between">
                                 <div className="mb-4 md:mr-2 md:mb-0">

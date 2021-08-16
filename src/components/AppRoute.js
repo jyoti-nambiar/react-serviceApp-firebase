@@ -6,7 +6,6 @@ import About from './About'
 import Register from './Register'
 import Login from './Login'
 import ForgotPassword from './ForgotPassword'
-import UploadFile from './UploadFile'
 import AddNewService from './AddNewService'
 import {Route, Switch} from "react-router-dom"
 import Profile from './Profile'
@@ -27,7 +26,6 @@ function AppRoute() {
             <ProfileRedirect exact path="/login" component={Login}/>
             <AdminRoute exact path="/appUser" component={AppUsers}/>
             <Route exact path="/forgot-password" component={ForgotPassword}/>
-            <Route exact path="/uploadFile" component={UploadFile}/>
             <Route exact path="/profile/:id" component={Profile}/>
         </Switch>
 

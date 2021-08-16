@@ -32,15 +32,17 @@ setBookings(service);
       })
       
 return unsubscribe;
- setbookingUpdate(false);
+ 
 
-   }} , [user, userId, bookingUpdate]);
+   }
+  setbookingUpdate(false);
+  } , [user, userId, bookingUpdate]);
 
 
 
     return (
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 content-evenly m-2.5 px-2 py-2 ">
+    <div className=" h-screen grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 content-evenly m-10   ">
        
 {bookings.map( (booking)=>{
     

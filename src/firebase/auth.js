@@ -24,13 +24,21 @@ const user=resp.user;
 return user;
 }
 
-export const googlesignin= async(provider)=>{
+export const googleSignIn= async(provider)=>{
 
 const resp= await firebase.auth().signInWithPopup(provider);
-const user=resp.user;
-return user;
+const oAuthUser=resp.user;
+return oAuthUser;
 }
 
+export const facebookSignIn= async(provider)=>{
+
+const resp=await firebase.auth().signInWithPopup(provider);
+const oAuthUser=resp.user;
+return oAuthUser;
+
+ 
+}
 
 
 export const resetPassword=async(email)=>{

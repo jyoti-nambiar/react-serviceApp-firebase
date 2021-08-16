@@ -1,5 +1,4 @@
 import React,{useRef, useState, useEffect} from 'react'
-import {storage} from '../firebase/config'
 import {downloadUrl, uploadImage} from '../firebase/user'
 export default function ProfileImage({id}) {
 const fileInput=useRef(null);

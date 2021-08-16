@@ -26,26 +26,22 @@ function AddNewService() {
         })
 
     }
-
+    //Image storage state function
     function handleUploadImage(e) {
-        console.log("This is the uploaded image", e.target.files[0]);
+
         setUploadImage(e.target.files[0])
 
     }
 
-    function handleClick() {
+    //Image upload to cloud storage
+    const handleClick = () => {
         const storageRef = storage.ref();
 
         var uploadTask = storageRef
             .child(`images/${uploadImage.name}`)
             .put(uploadImage);
 
-        uploadTask.on('state_changed', (snapshot) => {
-            // Observe state change events such as progress, pause, and resume Get task
-            // progress, including the number of bytes uploaded and the total number of bytes
-            // to be uploaded
-
-        }, (error) => {
+        uploadTask.on('state_changed', (snapshot) => {}, (error) => {
             console.log(error);
         }, () => {
             // Handle successful uploads on complete For instance, get the download URL:
@@ -62,7 +58,8 @@ function AddNewService() {
 
     }
 
-    function handleOnSubmit(e) {
+    //new service data send to firebase-firestore db
+    const handleOnSubmit = (e) => {
 
         e.preventDefault();
 
@@ -73,9 +70,9 @@ function AddNewService() {
         try {
 
             createServiceDocument(serviceName, description, price, imgUrl);
-            console.log("Document successfully written!");
+            //console.log("Document successfully written!");
         } catch (error) {
-            console.error("Error writing document: ", error);
+            //console.error("Error writing document: ", error);
         };
 
     }

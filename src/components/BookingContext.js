@@ -9,8 +9,7 @@ export const BookingProvider = (props) => {
         setBookingsCount] = useState(0);
     const [userId,
         setUserId] = useState(null);
-    const [bookingUpdate,
-        setBookingUpdate] = useState(false);
+    
     const {user} = useSession();
 
     useEffect(() => {
@@ -32,7 +31,7 @@ export const BookingProvider = (props) => {
                             ...doc.data()
                         })
                     })
-                    console.log("length", tempDoc.length);
+                    
                     setBookingsCount(tempDoc.length);
                 })
                 .catch((error) => {
@@ -42,7 +41,7 @@ export const BookingProvider = (props) => {
         }
 
         fetchData();
-    }, [userId, bookingCount]);
+    }, [user,userId, bookingCount]);
 
     return (
 
