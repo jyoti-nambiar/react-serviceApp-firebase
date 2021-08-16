@@ -46,9 +46,8 @@ return unsubscribe;
        
 {bookings.map( (booking)=>{
     
- return(<><BookingCard key={booking.id} cardId={booking.id} image={booking.imageUrl }product={booking.title}  date={booking.date} time={booking.time} price={booking.cost} setbookingUpdate={setbookingUpdate} />
+ return(<BookingCard key={booking.id} cardId={booking.id} image={booking.imageUrl }product={booking.title}  date={booking.date} time={booking.time} price={booking.cost} setbookingUpdate={setbookingUpdate} />
 
-</>
    ); 
 })
 }

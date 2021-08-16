@@ -18,7 +18,6 @@ function BookingCard({
     date,
     time,
     price,
-    productId,
     setbookingUpdate
 }) {
 
@@ -142,7 +141,7 @@ function BookingCard({
 
     return (
 
-        <div className="max-w-xs rounded overflow-hidden shadow-lg my-2" key={productId}>
+        <div className="max-w-xs rounded overflow-hidden shadow-lg my-2">
             <img className="w-full h-48" src={image} alt="home-service"/>
             <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">{product}</div>
