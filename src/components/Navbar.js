@@ -120,8 +120,8 @@ function Navbar() {
           leaveTo="opacity-0 scale-95"
         >
           {(ref) => (
-            <div className="lg:hidden z-1" id="mobile-menu">
-              <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col bg-white z-1">
+            <div className="lg:hidden" id="mobile-menu">
+              <div ref={ref} className="px-2 pt-2 pb-3 py-2 space-y-1 sm:px-3 sm:py-3 flex flex-col bg-white z-10">
                 {(!!user) && <>
                 <Link className="p-4" to={`/profile/${user.uid}`}>
                             Profile</Link>
@@ -135,7 +135,7 @@ function Navbar() {
                 {/*Person with role admin can see Add new service */}
                 {(!!user && isAdmin)
                     && (<>< Link className = "p-4" to = "/addNewService" > Add New Service </Link>
-         <Link className="p-4" to="/appUser ">Customer Profile</Link></>
+         <Link className="p-4" to="/appUser">Customer Profile</Link></>
 )
                 }
 

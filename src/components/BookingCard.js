@@ -61,7 +61,7 @@ function BookingCard({
             .collection("userBookings")
             .doc(`${cardId}`);
 
-        // Set the "capital" field of the service
+        // Set the updates in field of the service
         return serviceRef
             .update({date: formValues.date, time: formValues.time})
             .then(() => {

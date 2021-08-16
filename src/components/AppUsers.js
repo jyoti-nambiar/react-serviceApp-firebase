@@ -6,7 +6,7 @@ export default function AppUsers() {
     const [users,
         setUsers] = useState([])
 
-    //function call in useEffect to display app authenticated users
+    //function call in useEffect to display app's authenticated users
     useEffect(() => {
         const userRef = firestore.collection('users');
         const unsubscribe = userRef.onSnapshot((querySnapshot) => {
