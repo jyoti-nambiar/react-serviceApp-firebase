@@ -14,6 +14,7 @@ export const BookingProvider = (props) => {
 
     useEffect(() => {
         const fetchData = async() => {
+            const tempDoc = [];
             if (user) {
                 setUserId(user.uid);
             }
@@ -22,9 +23,8 @@ export const BookingProvider = (props) => {
                 .collection("userBookings")
                 .where("uid", "==", `${userId}`)
                 .get()
-                .then((querySnapshot) => {
-                    const tempDoc = []
-
+                .then( (querySnapshot) => {
+                    
                     querySnapshot.forEach((doc) => {
                         tempDoc.push({
                             id: doc.id,
@@ -43,9 +43,14 @@ export const BookingProvider = (props) => {
         fetchData();
     }, [user,userId, bookingCount]);
 
+console.log(bookingCount);
+
+
     return (
 
         <BookingContext.Provider value={bookingCount}>
+
+          
             {props.children}
         </BookingContext.Provider>
 

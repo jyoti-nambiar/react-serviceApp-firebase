@@ -8,7 +8,8 @@ require("dotenv").config()
 const stripe = require('stripe')((process.env.STRIPE_PRIVATE_KEY));
 //middleware for cross server communication
 var cors = require('cors')
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+const { request } = require('express');
 app.use(cors())
 
 //json hantera
@@ -33,16 +34,17 @@ app.post('/create-checkout-session', async (req, res) => {
           },
           unit_amount: req.body.price*100,
         },
-        quantity: 1,
+        quantity: req.body.quantity,
       },
     ],
     mode: 'payment',
-    success_url: 'http://localhost:3000/services',
-    cancel_url: 'http://localhost:4242/cancel',
+    success_url: 'https://spikspanapp.web.app/services',
+    cancel_url: 'https://spikspanapp.web.app/services/myBookings',
 
     });
 
   res.json({ id: session.id });
+  console.log(res.json({ id: session.id }))
 });
 
-app.listen(4242, () => console.log(`Listening on port ${4242}!`));
+app.listen(process.env.PORT || 4242, () => console.log(`Listening on port ${4242}!`));

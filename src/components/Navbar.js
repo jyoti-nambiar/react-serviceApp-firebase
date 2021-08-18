@@ -7,6 +7,7 @@ import { Transition } from "@headlessui/react";
 function Navbar() {
 
     const context = useContext(BookingContext);
+    
     const history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     const {user, isAdmin} = useSession();

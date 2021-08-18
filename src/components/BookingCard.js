@@ -1,15 +1,12 @@
 import React, {useState} from 'react'
 import ButtonBlue from './ButtonBlue';
 import ButtonWhite from './ButtonWhite';
-import axios from 'axios';
+
 import Modal from 'react-modal';
 import {firestore} from '../firebase/config'
-import {loadStripe} from '@stripe/stripe-js';
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_51Ix6U6CxfG0XwLzbuosrl518XDhmHQtZq2M6mq0ng4tR2SJDtPxQ0bHDMrNIDYA18RoQBfG' +
-        '7pfRV8fOcx06PQPfB00AZ7w0YgS');
+
+
 
 function BookingCard({
     image,
@@ -116,28 +113,7 @@ function BookingCard({
         }
     };
 
-    //passing data to stripe server
-    const handleClick = async(event) => {
-        // Get Stripe.js instance
-        const stripe = await stripePromise;
-
-        // Call your backend to create the Checkout Session
-        const response = await axios.post('http://localhost:4242/create-checkout-session', {
-            product: product,
-            price: price
-        });
-        //console.log(response.data);
-        const sessionId = response.data.id;
-
-        // When the customer clicks on the button, redirect them to Checkout.
-        const result = await stripe.redirectToCheckout({sessionId: sessionId});
-        if (result.error) {
-            result.error.message = "Transaction failure";
-            // If `redirectToCheckout` fails due to a browser or network error, display the
-            // localized error message to your customer using `result.error.message`.
-        }
-
-    };
+    
 
     return (
 
@@ -225,12 +201,7 @@ function BookingCard({
 
                     </form>
                 </Modal>
-            <span
-                    className="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2">
-                <button  className="p-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 m-1" role="link" onClick={handleClick}>
-                    Checkout
-                </button>
-</span>
+            
             </div>
         </div>
 
