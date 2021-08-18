@@ -22,7 +22,7 @@ export default function AppUsers() {
     }, [])
 
     return (
-        <div className="md:px-32 py-8 w-full">
+        <div className="md:px-32 py-8 w-full min-h-screen">
             <div className="shadow overflow-hidden rounded border-b border-gray-200">
                 <table className="min-w-full bg-white">
                     <thead className="bg-gray-800 text-white">

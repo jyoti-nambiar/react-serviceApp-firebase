@@ -123,20 +123,20 @@ function Navbar() {
           {(ref) => (
             <div className="lg:hidden" id="mobile-menu">
               <div ref={ref} className="px-2 pt-2 pb-3 py-2 space-y-1 sm:px-3 sm:py-3 flex flex-col bg-white z-10">
-                {(!!user) && <>
+                {(!!user) && (<>
                 <Link className="p-4" to={`/profile/${user.uid}`}>
                             Profile</Link>
                             <Link className="p-4" to="/myBooking">My Booking
                     <span className="p-1">({context})</span>
 
                 </Link>
-                </>
+                </>)
                 }
               <Link className="p-4" to="/services">Our Services</Link>
                 {/*Person with role admin can see Add new service */}
                 {(!!user && isAdmin)
                     && (<>< Link className = "p-4" to = "/addNewService" > Add New Service </Link>
-         <Link className="p-4" to="/appUser">Customer Profile</Link></>
+                        <Link className="p-4" to="/appUser">Customer Profile</Link></>
 )
                 }
 
